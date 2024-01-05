@@ -1,6 +1,6 @@
 // task_1/js/dashboard_main.js
 import $ from 'jquery';
-import { debounce } from 'lodash';
+import _ from 'lodash';
 
 // Create new elements and append to body
 $('body').append('<p>Holberton Dashboard</p>');
@@ -17,4 +17,4 @@ function updateCounter() {
 }
 
 // Select button and bind click event w/ debounced updateCOunter to stop spammy behavior
-$('#click-me').on('click', debounce(updateCounter, 500));
+$('#click-me').on('click', _.debounce(updateCounter, 500));
