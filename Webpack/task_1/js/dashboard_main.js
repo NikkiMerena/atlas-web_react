@@ -7,7 +7,7 @@ $('body').append('<p>Holberton Dashboard</p>');
 $('body').append('<p>Dashboard data for the students</p>');
 $('body').append('<button id="click-me">Click here to get started</button');
 $('body').append('<p id="count"></p>');
-$('body').append('<p>Copyrught - Holberton</p>');
+$('body').append('<p>Copyright - Holberton</p>');
 
 // Function to update count and modify text content
 function updateCounter() {
