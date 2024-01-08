@@ -1,6 +1,8 @@
-// task_1/js/dashboard_main.js
+// task_2/js/dashboard_main.js
+import '../css/main.css';
 import $ from 'jquery';
 import _ from 'lodash';
+
 
 // Create new elements and append to body
 $('body').append('<p>Holberton Dashboard</p>');
