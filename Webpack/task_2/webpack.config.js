@@ -1,4 +1,4 @@
-// task_1/webpack.config.js
+// task_2/webpack.config.js
 const path = require('path');
 
 module.exports = {
@@ -15,8 +15,8 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
         use: [
+          'file-loader',
           {
             loader: 'image-webpack-loader',
             options: {
