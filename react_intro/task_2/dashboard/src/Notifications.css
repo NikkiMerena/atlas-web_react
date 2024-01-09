@@ -2,3 +2,11 @@
   border: 2px solid blue;
   padding: 4px;
 }
+
+.Notifications li[data-priority="default"] {
+  color: blue;
+}
+
+.Notifications li[data-priority="urgent"] {
+  color: red;
+}
