@@ -16,7 +16,6 @@ module.exports = {
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                type: "asset/resource",
                 use: [
                     "file-loader",
                     {
@@ -28,9 +27,9 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader",
+                    loader: 'babel-loader',
                     options: {
-                        presets: ["@babel/preset-env", "@babel/preset-react"],
+                      presets: ['@babel/preset-env', '@babel/preset-react'],
                     },
                 },
             },
@@ -47,7 +46,7 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
-                { from: "./dist/favicon.ico", to: "favicon.ico" },
+                { from: "public/favicon.ico", to: "favicon.ico" },
             ],
         }),
     ],
