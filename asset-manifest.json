@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/atlas-web_react/static/css/main.f63130b7.css",
+    "main.js": "/atlas-web_react/static/js/main.99a4dcd3.js",
+    "static/js/787.1cd31a9e.chunk.js": "/atlas-web_react/static/js/787.1cd31a9e.chunk.js",
+    "static/media/atlas_logo.png": "/atlas-web_react/static/media/atlas_logo.2b65dead8bca8f822458.png",
+    "static/media/close-icon.png": "/atlas-web_react/static/media/close-icon.3b92b242ae9d1311b422.png",
+    "index.html": "/atlas-web_react/index.html",
+    "main.f63130b7.css.map": "/atlas-web_react/static/css/main.f63130b7.css.map",
+    "main.99a4dcd3.js.map": "/atlas-web_react/static/js/main.99a4dcd3.js.map",
+    "787.1cd31a9e.chunk.js.map": "/atlas-web_react/static/js/787.1cd31a9e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f63130b7.css",
+    "static/js/main.99a4dcd3.js"
+  ]
+}
