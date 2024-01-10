@@ -1,52 +1,54 @@
-const path = require('path');
+const path = require("path");
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  entry: './src/index.js',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
-  devtool: 'inline-source-map',
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'),
+    mode: "development",
+    entry: path.resolve(__dirname, '../src/index.js'),
+    output: {
+        filename: "bundle.js",
+        path: path.resolve(__dirname, "../dist"),
     },
-    compress: true,
-    port: 8080,
-    hot: true,
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babell-loader',
-          options: {
-            presets: ['@babel/presets-env', '@babel/preset-react']
-          }
-        }
-      },
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              bypassOnDebug: true,
-              disable: true, // Disable during development
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"],
             },
-          },
-          {
-            loader: 'file-loader', // This will handle the file paths for the images
-          },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: "asset/resource",
+                use: [
+                    "file-loader",
+                    {
+                        loader: "image-webpack-loader",
+                    },
+                ],
+            },
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env", "@babel/preset-react"],
+                    },
+                },
+            },
         ],
-      },
+    },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, '../dist'),
+        },
+        compress: true,
+        hot: true,
+    },
+    devtool: "inline-source-map",
+    plugins: [
+        new CopyPlugin({
+            patterns: [
+                { from: "./dist/favicon.ico", to: "favicon.ico" },
+            ],
+        }),
     ],
-  },
 };
