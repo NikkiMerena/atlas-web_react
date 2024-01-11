@@ -17,17 +17,20 @@ class NotificationItem extends Component {
 }
 
 NotificationItem.propTypes = {
+  id: PropTypes.number.isRequired,
   type: PropTypes.string,
   value: PropTypes.string,
   html: PropTypes.shape({
     __html: PropTypes.string,
   }),
+  markAsRead: PropTypes.func.isRequired,
 };
 
 NotificationItem.defaultProps = {
   type: 'default',
   value: '',
   html: null,
+  markAsRead: () => {},
 };
 
 export default NotificationItem;
