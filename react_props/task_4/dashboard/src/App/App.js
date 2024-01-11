@@ -1,19 +1,25 @@
-import React from "react";
-import PropTypes from "prop-types";
-import "./App.css";
-import Header from "../Header/Header";
-import Login from "../Login/Login";
-import Footer from "../Footer/Footer";
-import Notifications from "../Notifications/Notifications";
-import CourseList from "../CourseList/CourseList";
+import React from 'react';
+import PropTypes from 'prop-types';
+import './App.css';
+import Header from '../Header/Header';
+import Login from '../Login/Login';
+import Footer from '../Footer/Footer';
+import Notifications from '../Notifications/Notifications';
+import CourseList from '../CourseList/CourseList';
 
 function App({ isLoggedIn }) {
   return (
     <>
-      <Notifications />
+    <div className="App-header-wrapper">
+      <Header />
+      <div className="App-menu">
+        <Notifications />
+      </div>
+      </div>
       <div className="App">
-        <Header />
         {isLoggedIn ? <CourseList /> : <Login />}
+      </div>
+      <div>
         <Footer />
       </div>
     </>
@@ -21,11 +27,11 @@ function App({ isLoggedIn }) {
 }
 
 App.propTypes = {
-  isLoggedIn: PropTypes.bool,
+  isLoggedIn: PropTypes.bool
 };
 
 App.defaultProps = {
-  isLoggedIn: false,
+  isLoggedIn: false
 };
 
 export default App;
