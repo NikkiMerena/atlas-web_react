@@ -43,3 +43,22 @@ describe('<App />', () => {
     expect(wrapper.containsMatchingElement(<Footer />)).toEqual(true);
   });
 });
+
+describe('<App />', () => {
+  it('calls logOut and alert when ctrl+h is pressed', () => {
+    const logOutMock = jest.fn();
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation();
+
+    const wrapper = shallow(<App logOut={logOutMock} />);
+
+    // Simulating ctrl+h keydown event
+    const event = new KeyboardEvent('keydown', { key: 'h', ctrlKey: true });
+    window.dispatchEvent(event);
+
+    expect(alertMock).toHaveBeenCalledWith('Logging you out');
+    expect(logOutMock).toHaveBeenCalled();
+
+    alertMock.mockRestore();
+  });
+});
+
