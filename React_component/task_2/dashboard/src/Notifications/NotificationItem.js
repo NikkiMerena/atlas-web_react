@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-function NotificationItem({ type, value, html }) {
-  if (html) {
+class NotificationItem extends Component {
+  render() {
+    const { id, type, value, html, markAsRead } = this.props;
+
     return (
-      <li data-notification-type={type} dangerouslySetInnerHTML={html} />
-    );
-  }
-  return (
-    <li data-notification-type={type}>
+      <li
+      onClick={() => markAsRead(id)}
+      data-notification-type={type}
+      dangerouslySetInnerHTML={html}>
       {value}
-    </li>
-  );
+      </li>
+    )
+  }
 }
 
 NotificationItem.propTypes = {
