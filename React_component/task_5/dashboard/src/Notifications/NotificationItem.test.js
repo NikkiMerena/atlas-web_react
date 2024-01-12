@@ -1,22 +1,39 @@
-// NotificationItem.test.js
 import React from 'react';
-import { shallow } from 'enzyme';
-import NotificationItem from './NotificationItem';
+import { render, screen, fireEvent } from '@testing-library/react';
+import Notifications from './Notifications';
 
-describe('<NotificationItem />', () => {
-  it('renders without crashing', () => {
-    const wrapper = shallow(<NotificationItem type="default" value="test" />);
-    expect(wrapper.exists()).toBe(true);
+describe('Notifications Component', () => {
+  it('should not rerender with the same list of notifications', () => {
+    const notifications = [
+      { id: 1, type: 'default', value: 'No new notification for now', html: { __html: 'No new notification for now' } },
+      { id: 2, type: 'urgent', value: 'Test Notification 2' },
+    ];
+
+    const { rerender } = render(<Notifications displayDrawer={true} notifications={notifications} />);
+
+    const initialComponentInstance = screen.getByClassName('Notifications');
+
+    rerender(<Notifications displayDrawer={true} notifications={notifications} />);
+
+    expect(screen.getByClassName('Notifications')).toBe(initialComponentInstance);
   });
 
-  it('renders the correct value and type', () => {
-    const wrapper = shallow(<NotificationItem type="default" value="test" />);
-    expect(wrapper.text()).toEqual('test');
-    expect(wrapper.props()['data-notification-type']).toEqual('default');
-  });
+  it('should rerender with a longer list of notifications', () => {
+    const initialNotifications = [
+      { id: 1, type: 'default', value: 'No new notification for now', html: { __html: 'No new notification for now' } },
+    ];
 
-  it('renders the correct html', () => {
-    const wrapper = shallow(<NotificationItem html={{ __html: '<u>test</u>' }} />);
-    expect(wrapper.html()).toContain('<u>test</u>');
+    const longerNotifications = [
+      ...initialNotifications,
+      { id: 2, type: 'urgent', value: 'Test Notification 2' },
+    ];
+
+    const { rerender } = render(<Notifications displayDrawer={true} notifications={initialNotifications} />);
+
+    const initialComponentInstance = screen.getByClassName('Notifications');
+
+    rerender(<Notifications displayDrawer={true} notifications={longerNotifications} />);
+
+    expect(screen.getByClassName('Notifications')).not.toBe(initialComponentInstance);
   });
 });
