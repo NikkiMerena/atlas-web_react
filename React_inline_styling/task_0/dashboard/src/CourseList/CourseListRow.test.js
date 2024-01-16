@@ -30,3 +30,15 @@ describe('<CourseListRow />', () => {
     expect(wrapper.find('td').length).toBe(2);
   });
 });
+
+it('applies correct style for header row', () => {
+  const wrapper = shallow(<CourseListRow isHeader textFirstCell="Header" />);
+  const expectStyle = { backgroundColor: '#deb5b545' };
+  expect(wrapper.find('tr').props().style).toEqual(expectedStyle);
+});
+
+it('applies correct style for regular row', () => {
+  const wrapper = shallow(<CourseListRow textFirstCell="Regular" />);
+  const expectedStyle = { backgroundColor: '#f5f5f5ab' };
+  except(wrapper.find('tr').props().style.toEqual(expectedStyle));
+});
