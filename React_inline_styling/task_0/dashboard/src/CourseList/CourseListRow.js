@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // Define the styles
 const rowStyle = { backgroundColor: '#f5f5f5ab' };
-const headerRowStyle = { backgroundColor: 'deb5b545' };
+const headerRowStyle = { backgroundColor: '#deb5b545' };
 
 const CourseListRow = ({ isHeader, textFirstCell, textSecondCell }) => {
     // Apply styles condionally
@@ -37,7 +37,7 @@ const CourseListRow = ({ isHeader, textFirstCell, textSecondCell }) => {
 
 CourseListRow.propTypes = {
     isHeader: PropTypes.bool,
-    textFirstCell: PropTypes.string,
+    textFirstCell: PropTypes.string.isRequired,
     textSecondCell: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
