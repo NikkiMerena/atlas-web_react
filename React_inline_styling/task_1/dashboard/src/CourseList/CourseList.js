@@ -3,6 +3,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CourseShape from './CourseShape';
 import CourseListRow from './CourseListRow';
+import { StyleSheet, css } from 'aphrodite';
+
+const styles = StyleSheet.create({
+
+  courseTable: {
+    width: '90%',
+    borderCollapse: 'collapse',
+    border: '1px solid #e0e0e0',
+    margin: '1rem auto',
+    fontFamily: "'Galano Grotesque Alt', sans-serif",
+    fontWeight: '400',
+  },
+
+});
 
 const CourseList = ({ listCourses }) => (
   <table id="CourseList">
