@@ -25,13 +25,15 @@ const styles = StyleSheet.create({
     },
     });
 
-function Header() {
-    return (
-            <header className="App-header">
-                <img src={logo} className="atlas_logo" alt="logo" />
-                <h1>School dashboard</h1>
-            </header>
-    );
+    function Header() {
+        return (
+        <header className={css(styles.headerMain)}>
+            <img src={logo} className={css(styles.logo)} alt="logo" />
+            <h1 className={css(styles.headerTitle)}>
+                School dashboard
+            </h1>
+        </header>
+        );
 }
 
 export default Header;
