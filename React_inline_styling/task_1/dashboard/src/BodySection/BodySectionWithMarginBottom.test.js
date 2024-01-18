@@ -4,6 +4,14 @@ import BodySection from './BodySection';
 import BodySectionWithMarginBottom from './BodySectionWithMarginBottom';
 
 describe('<BodySectionWithMarginBottom />', () => {
+  beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
   it('renders BodySection component with correct props', () => {
     const wrapper = shallow(
       <BodySectionWithMarginBottom title="test title">
