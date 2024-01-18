@@ -6,8 +6,22 @@ import Header from '../Header/Header';
 import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
+import { StyleSheetTestUtils } from 'aphrodite';
 
-describe('<App />', () => {
+
+describe('App', () => {
+  beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
+  it('renders without crashing', () => {
+    shallow(<App />);
+  });
+
   it('renders the Notifications component', () => {
     const wrapper = shallow(<App />);
     expect(wrapper.containsMatchingElement(<Notifications />)).toEqual(true);
@@ -61,4 +75,3 @@ describe('<App />', () => {
     alertMock.mockRestore();
   });
 });
-
