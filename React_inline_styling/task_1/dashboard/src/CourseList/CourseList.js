@@ -18,23 +18,25 @@ const styles = StyleSheet.create({
 
 });
 
-const CourseList = ({ listCourses }) => (
-  <table id="CourseList">
-    <thead>
-      <CourseListRow isHeader textFirstCell="Available courses" />
-      <CourseListRow isHeader textFirstCell="Course name" textSecondCell="Credit" />
-    </thead>
-    <tbody>
-      {listCourses.length === 0 ? (
-        <CourseListRow textFirstCell="No course available yet" />
-      ) : (
-        listCourses.map(course => (
-          <CourseListRow key={course.id} textFirstCell={course.name} textSecondCell={course.credit} />
-        ))
-      )}
-    </tbody>
-  </table>
-);
+function CourseList({ listCourses }) {
+  return (
+    <table className={css(styles.courseTable)}>
+      <thead>
+        <CourseListRow textFirstCell='Available courses' isHeader={true} />
+        <CourseListRow textFirstCell='Course name' textSecondCell='Credit' isHeader={true} />
+      </thead>
+      <tbody>
+        {listCourses.length === 0 ? (
+          <CourseListRow textFirstCell='No course available yet' isHeader={false} />
+        ) : (
+          listCourses.map(course => (
+            <CourseListRow key={course.id} textFirstCell={course.name} textSecondCell={course.credit} isHeader={false} />
+          ))
+        )}
+      </tbody>
+    </table>
+  );
+}
 
 CourseList.propTypes = {
   listCourses: PropTypes.arrayOf(CourseShape),
