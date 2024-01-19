@@ -49,7 +49,7 @@
 }
 
 /* Styles for the menu item */
-.Notifications {
+/* .Notifications {
   position: absolute;
   top: 0;
   right: 0;
@@ -58,7 +58,7 @@
   cursor: pointer;
   padding: 5px 20px;
   z-index: 1;
-}
+} 
 
 /* When displayDrawer is false, menuItem should be a small box */
 .Notifications.displayDrawerFalse {
