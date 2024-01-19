@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import './App.css';
+import { StyleSheet, css } from 'aphrodite';
 import Notifications from "../Notifications/Notifications";
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -8,6 +8,25 @@ import CourseList from "../CourseList/CourseList";
 import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
 import BodySection from "../BodySection/BodySection";
 import PropTypes from 'prop-types';
+
+const styles = StyleSheet.create({
+  header: {
+    fontFamily: "'Galano Grotesque Alt', sans-serif",
+    borderBottom: '5px solid #00003C',
+  },
+
+  body: {
+    fontFamily: "'Galano Grotesque Alt', sans-serif",
+    padding: '1rem',
+    minHeight: 'calc(100vh - 190px)',
+  },
+
+  footer: {
+    borderTop: '5px solid #00003C',
+    textAlign: 'center',
+    fontStyle: 'italic',
+  },
+});
 
 class App extends Component {
   constructor(props) {
@@ -54,7 +73,7 @@ class App extends Component {
             <Notifications listNotifications={listNotifications} />
           </div>
         </div>
-        <div className="App">
+        <div className={css(styles.app)}>
           {isLoggedIn ? (
             <BodySectionWithMarginBottom title='Course List'>
               <CourseList listCourses={listCourses} />

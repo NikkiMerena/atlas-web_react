@@ -2,8 +2,16 @@ import React from "react";
 import { shallow } from "enzyme";
 import Notifications from "./Notifications";
 import NotificationItem from "./NotificationItem";
+import { StyleSheetTestUtils } from 'aphrodite';
 
-describe("<Notifications />", () => {
+describe('Notifications', () => {
+    beforeAll(() => {
+      StyleSheetTestUtils.suppressStyleInjection();
+    });
+
+    afterAll(() => {
+      StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+    });
     it("renders without crashing", () => {
         shallow(<Notifications />);
     });
@@ -34,4 +42,40 @@ describe("<Notifications />", () => {
         const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
         expect(wrapper.find(NotificationItem).length).toBe(listNotifications.length);
     });
+
+    it('does not display div.Notifications when displayDrawer is false', () => {
+        const wrapper = shallow(<Notifications displayDrawer={false} />);
+        expect(wrapper.find('[data-testid="notifications"]').length).toBe(0);
+    });
+
+    it('displays div.Notifications when displayDrawer is true', () => {
+        const wrapper = shallow(<Notifications displayDrawer={true} />);
+        expect(wrapper.find('[data-testid="notifications"]').length).toBe(1);
+    });
+
+    it('calls markAsRead with the right message when a NotificationItem is clicked', () => {
+        const consoleSpy = jest.spyOn(console, 'log');
+        const wrapper = mount(<Notifications displayDrawer={true} listNotifications={[{ id: 1, type: 'default', value: 'New course available' }]} />);
+        wrapper.find('NotificationItem').first().simulate('click');
+        expect(consoleSpy).toHaveBeenCalledWith('Notification 1 has been marked as read');
+        consoleSpy.mockRestore();
+    });
+
+    it('does not rerender with the same listNotifications prop', () => {
+        const listNotifications = [{ id: 1, type: 'default', value: 'New course available' }];
+        const wrapper = shallow(<Notifications listNotifications={listNotifications} />);
+        const shouldUpdate = wrapper.instance().shouldComponentUpdate({ listNotifications });
+        expect(shouldUpdate).toBe(false);
+    });
+
+    it('rerenders with a longer listNotifications prop', () => {
+        const listNotifications = [{ id: 1, type: 'default', value: 'New course available' }];
+        const longerListNotifications = [
+          ...listNotifications,
+          { id: 2, type: 'urgent', value: 'New resume available' }
+        ];
+        const wrapper = shallow(<Notifications listNotifications={listNotifications} />);
+        const shouldUpdate = wrapper.instance().shouldComponentUpdate({ listNotifications: longerListNotifications });
+        expect(shouldUpdate).toBe(true);
+      });
 });
