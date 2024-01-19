@@ -1,39 +1,54 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import Notifications from './Notifications';
+import { shallow } from 'enzyme';
+import NotificationItem from './NotificationItem';
+import { StyleSheetTestUtils } from 'aphrodite';
 
-describe('Notifications Component', () => {
-  it('should not rerender with the same list of notifications', () => {
-    const notifications = [
-      { id: 1, type: 'default', value: 'No new notification for now', html: { __html: 'No new notification for now' } },
-      { id: 2, type: 'urgent', value: 'Test Notification 2' },
-    ];
-
-    const { rerender } = render(<Notifications displayDrawer={true} notifications={notifications} />);
-
-    const initialComponentInstance = screen.getByClassName('Notifications');
-
-    rerender(<Notifications displayDrawer={true} notifications={notifications} />);
-
-    expect(screen.getByClassName('Notifications')).toBe(initialComponentInstance);
-  });
-
-  it('should rerender with a longer list of notifications', () => {
-    const initialNotifications = [
-      { id: 1, type: 'default', value: 'No new notification for now', html: { __html: 'No new notification for now' } },
-    ];
-
-    const longerNotifications = [
-      ...initialNotifications,
-      { id: 2, type: 'urgent', value: 'Test Notification 2' },
-    ];
-
-    const { rerender } = render(<Notifications displayDrawer={true} notifications={initialNotifications} />);
-
-    const initialComponentInstance = screen.getByClassName('Notifications');
-
-    rerender(<Notifications displayDrawer={true} notifications={longerNotifications} />);
-
-    expect(screen.getByClassName('Notifications')).not.toBe(initialComponentInstance);
-  });
+jest.mock('aphrodite', () => {
+  return {
+    StyleSheet: {
+      create: jest.fn(styles => styles),
+    },
+    css: jest.fn(() => 'mocked_className'),
+  };
 });
+
+describe('NotificationItem', () => {
+  beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
+  it('renders without crashing', () => {
+    shallow(<NotificationItem />);
+  });
+
+it('applies urgent style for urgent notification', () => {
+  const { container } = render(<NotificationItem type="urgent" value="Urgent notification" />);
+  const listItem = container.querySelector('li');
+  expect(listItem).toHaveStyle(`color: red`);
+});
+
+  it('renders with type and value props', () => {
+    const type = "default";
+    const value = "test";
+    const wrapper = shallow(<NotificationItem type={type} value={value} />);
+    expect(wrapper.find('li').prop('data-notification-type')).toEqual(type);
+    expect(wrapper.text()).toContain(value);
+  });
+
+  it('renders with html prop', () => {
+    const html = { __html: '<u>test</u>' };
+    const wrapper = shallow(<NotificationItem html={html} />);
+    expect(wrapper.html()).toContain('<u>test</u>');
+  });
+
+  it('calls markAsRead with the right id when clicked', () => {
+    const markAsReadSpy = jest.fn();
+    const wrapper = shallow(<NotificationItem id={1} markAsRead={markAsReadSpy} />);
+    wrapper.simulate('click');
+    expect(markAsReadSpy).toHaveBeenCalledWith(1);
+  });
+})

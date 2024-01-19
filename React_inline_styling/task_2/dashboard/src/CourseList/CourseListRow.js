@@ -1,36 +1,67 @@
 // CourseListRow.js - React component that accepts three props: textFirstCell, textSecondCell, and isHeader.
 import React from 'react';
 import PropTypes from 'prop-types';
+import { StyleSheet, css } from 'aphrodite';
 
-// Define the styles
-const rowStyle = { backgroundColor: '#f5f5f5ab' };
-const headerRowStyle = { backgroundColor: '#deb5b545' };
+const styles = StyleSheet.create({
 
-const CourseListRow = ({ isHeader, textFirstCell, textSecondCell }) => {
+    headerRowSpan2: {
+      textAlign: 'center',
+    },
+
+    secondHeaderRow: {
+      borderTop: '2px solid #e0e0e0',
+      borderBottom: '2px solid #e0e0e0',
+    },
+
+    secondHeaderRowFirstCell: {
+      textAlign: 'left',
+      width: '70%',
+    },
+
+    secondHeaderRowSecondCell: {
+      textAlign: 'left',
+      width: '30%',
+    },
+
+    bodyRowCell: {
+      textAlign: 'left',
+    },
+
+    row: {
+      backgroundColor: '#f5f5f5ab',
+    },
+
+    header: {
+      backgroundColor: '#deb5b545',
+    },
+  });
+
+function CourseListRow({ isHeader, textFirstCell, textSecondCell }) {
     // Apply styles condionally
     const style = isHeader ? headerRowStyle : rowStyle;
 
     if (isHeader) {
         if (textSecondCell === null) {
             return (
-                <tr style={style}>
+                <tr className={css(style, styles.headerRowSpan2)}>
                     <th colSpan="2">{textFirstCell}</th>
                 </tr>
             );
         } else {
             return (
-                <tr>
-                    <th>{textFirstCell}</th>
-                    <th>{textSecondCell}</th>
-                </tr>
+                <tr className={css(style, styles.secondHeaderRow)}>
+          <th className={css(styles.secondHeaderRowFirstCell)}>{textFirstCell}</th>
+          <th className={css(styles.secondHeaderRowSecondCell)}>{textSecondCell}</th>
+        </tr>
             );
         }
     } else {
         return (
-            <tr style={style}>
-                <td>{textFirstCell}</td>
-                <td>{textSecondCell}</td>
-            </tr>
+            <tr className={css(style)}>
+            <td className={css(styles.bodyRowCell)}>{textFirstCell}</td>
+            <td className={css(styles.bodyRowCell)}>{textSecondCell}</td>
+          </tr>
         );
     };
 };

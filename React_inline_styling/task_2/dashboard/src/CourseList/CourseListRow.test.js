@@ -2,13 +2,22 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import CourseListRow from './CourseListRow';
+import { StyleSheetTestUtils } from 'aphrodite';
 
-describe('<CourseListRow />', () => {
+describe('CourseListRow', () => {
+  beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
   it('renders without crashing', () => {
     shallow(<CourseListRow textFirstCell="Test" />);
   });
 
-  it('renders one cell with colspan when isHeader is true and textSecondCell is null', () => {
+  it('renders one cell with colspan=2 when isHeader is true and textSecondCell is null', () => {
     const wrapper = shallow(
       <CourseListRow isHeader textFirstCell="Test" />
     );
