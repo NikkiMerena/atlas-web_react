@@ -19,14 +19,23 @@ const styles = StyleSheet.create({
 
     form: {
         display: 'flex',
+        flexDirection: 'row', // Default to row layout
         fontFamily: "'Galano Grotesque Alt', sans-serif",
         fontWeight: '400',
         fontSize: '1.3rem',
         margin: '1rem 2rem 1rem 4rem',
+
+        '@media (max-width: 900px)': {
+            flexDirection: 'column', // Change to column layout for smaller screens
+            alignItems: 'flex-start',
+        },
     },
 
     label: {
         paddingRight: '.5rem',
+        '@media (max-width: 900px)': {
+            paddingBottom: '.5rem', // Add bottom padding for labels on smaller screens
+        }
     },
 
     input: {
@@ -34,6 +43,11 @@ const styles = StyleSheet.create({
         border: '1px solid #00003C',
         borderRadius: '8px',
         boxShadow: 'rgba(213, 217, 217, .5) 0 2px 5px 0',
+
+        '@media (max-width: 900px)': {
+            marginRight: '0', // Remove right margin on smaller screens
+            marginBottom: '1rem', // Add bottom margin for inputs on smaller screens
+        },
     },
 
     button: {
@@ -48,6 +62,9 @@ const styles = StyleSheet.create({
         ':focus': {
             borderColor: '#1ED2AF',
             outline: '2px solid #1ED2AF',
+        },
+        '@media (max-width: 900px)': {
+            alignSelf: 'flex-start', // Align button  to start on smaller screens
         },
     },
 });
