@@ -46,7 +46,7 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
-                { from: "public/favicon.ico", to: "favicon.ico" },
+                { from: "dist/favicon-atlas.png", to: "favicon-atlas.png" },
             ],
         }),
     ],
