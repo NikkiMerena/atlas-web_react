@@ -1,5 +1,6 @@
 const path = require("path");
-const CopyPlugin = require('copy-webpack-plugin');
+
+const webpack = require("webpack");
 
 module.exports = {
     mode: "development",
@@ -43,11 +44,4 @@ module.exports = {
         hot: true,
     },
     devtool: "inline-source-map",
-    plugins: [
-        new CopyPlugin({
-            patterns: [
-                { from: "dist/favicon-atlas.png", to: "favicon-atlas.png" },
-            ],
-        }),
-    ],
-};
+        };
