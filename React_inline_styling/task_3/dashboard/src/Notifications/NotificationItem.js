@@ -2,52 +2,77 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 
-class NotificationItem extends PureComponent {
-  render() {
-    const { id, type, value, html, markAsRead } = this.props;
-    const style = (type === 'urgent') ? styles.urgent : styles.default;
-
-    return (
-      <li
-      onClick={() => markAsRead(id)}
-      className={css(style)}
-      data-notification-type={type}
-      dangerouslySetInnerHTML={html}>
-      {value}
-      </li>
-    )
-  }
-}
-
 const styles = StyleSheet.create({
-  default: {
+
+  listDefault: {
     fontFamily: "'Galano Grotesque Alt', sans-serif",
     fontWeight: '400',
     fontSize: '0.8rem',
     color: 'blue',
+    '@media (max-width: 900px)': {
+      borderBottom: '3px solid black',
+      fontSize: '20px',
+      padding: '10px 8px',
+      listStyleType: 'none',
+      width: '100%',
+    },
   },
-  urgent: {
+
+  listUrgent: {
     fontFamily: "'Galano Grotesque Alt', sans-serif",
     fontWeight: '400',
     fontSize: '0.8rem',
     color: 'red',
+    '@media (max-width: 900px)': {
+      borderBottom: '3px solid black',
+      fontSize: '20px',
+      padding: '10px 8px',
+      listStyleType: 'none',
+      width: '100%',
+    },
   },
-})
+
+  listHtml: {
+    fontFamily: "'Galano Grotesque Alt', sans-serif",
+    fontWeight: '400',
+    fontSize: '0.9rem',
+    color: 'red',
+    '@media (max-width: 900px)': {
+      borderBottom: '3px solid black',
+      fontSize: '20px',
+      padding: '10px 8px',
+      listStyleType: 'none',
+      width: '100%',
+    },
+  },
+});
+
+
+class NotificationItem extends PureComponent {
+
+  render() {
+    const { id, type, html, value, markAsRead } = this.props;
+    const priorityType = type === 'urgent' ? styles.listUrgent : styles.listDefault;
+
+    return html ? (
+      <li className={css(styles.listHtml)} data-notification-type={type} dangerouslySetInnerHTML={html} onClick={() => markAsRead(id)}></li>
+    ) : (
+      <li className={css(priorityType)} data-notification-type={type} onClick={() => markAsRead(id)}>{value}</li>
+    );
+  }
+}
 
 NotificationItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  type: PropTypes.string,
-  value: PropTypes.string,
   html: PropTypes.shape({
     __html: PropTypes.string,
   }),
-  markAsRead: PropTypes.func.isRequired,
+  type: PropTypes.string,
+  value: PropTypes.string,
+  markAsRead: PropTypes.func,
 };
 
 NotificationItem.defaultProps = {
   type: 'default',
-  value: '',
-  html: null,
   markAsRead: () => {},
 };
 
