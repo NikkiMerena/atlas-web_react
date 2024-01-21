@@ -4,18 +4,17 @@ import closeIcon from '../assets/close-icon.png';
 import NotificationItem from './NotificationItem';
 import NotificationItemShape from './NotificationItemShape';
 import { StyleSheet, css } from 'aphrodite';
-import { keyframes } from 'aphrodite/no-important';
 
-const fadeIn = keyframes({
-  from: { opacity: 0.5 },
-  to: { opacity: 1 },
-});
+const fadeIn = {
+  'from': { opacity: 0.5 },
+  'to': { opacity: 1 },
+};
 
-const bounce = keyframes({
-  '0%': { transform: 'translateY(0px)' },
+const bounce = {
+  '0%': { tranform: 'translateY(0)' },
   '50%': { transform: 'translateY(-5px)' },
-  '100%': { transform: 'translateY(5px)' },
-});
+  '100%': { tranform: 'translateY(5px)' },
+};
 
 const styles = StyleSheet.create({
 
