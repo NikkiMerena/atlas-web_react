@@ -13,6 +13,17 @@ const styles = StyleSheet.create({
       alignItems: 'flex-start',
       border: '3px dotted #00003C',
       marginRight: '.5rem',
+      '@media (max-width: 900px)': {
+        // Styles to apply when the screen width is 900px or less
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        width: '100vw', // Full viewport width
+        height: '100vh', // Full viewport height
+        zIndex: 10, // Ensure it's above other content
+      },
     },
 
     notificationsParagraph: {
@@ -21,6 +32,10 @@ const styles = StyleSheet.create({
       padding: '1.5rem 0 .3rem .8rem',
       margin: '0',
       fontSize: '.8rem',
+      '@media (max-width: 900px)': {
+        fontSize: '20px',
+        padding: '1rem 0',
+      }
     },
 
     menuItem: {
@@ -32,6 +47,12 @@ const styles = StyleSheet.create({
 
     notificationsUnorderedList: {
       paddingLeft: '2.3rem',
+      '@media (max-width: 900px)': {
+        listStyle: 'none',
+        paddingLeft: 0,
+        margin: 0,
+        width: '100%',
+      }
     },
   })
 
