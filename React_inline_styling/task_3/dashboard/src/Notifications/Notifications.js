@@ -59,7 +59,18 @@ const styles = StyleSheet.create({
 class Notifications extends Component {
     constructor(props) {
     super(props);
+    this.state = {
+      displayDrawer: false, // Initial state for the drawer visibility
+    };
     this.markAsRead = this.markAsRead.bind(this);
+    this.toggleDrawer = this.toggleDrawer.bind(this); // Bind the toggleDrawer method
+    }
+
+    // Method to toggle the drawer visibilty
+    toggleDrawer() {
+      this.setState(prevState => ({
+        displayDrawer: !prevState.displayDrawer
+      }));
     }
 
     markAsRead(id) {
@@ -75,7 +86,8 @@ class Notifications extends Component {
     };
 
     render() {
-    const { displayDrawer, listNotifications } = this.props;
+    const { listNotifications } = this.props;
+    const { displayDrawer } = this.state;
 
     const buttonStyle = {
         position: "absolute",
@@ -91,7 +103,7 @@ class Notifications extends Component {
 
     return (
         <>
-          <div className={css(styles.menuItem)} data-testid="menuItem">
+          <div className={css(styles.menuItem)} data-testid="menuItem" onClick={this.toggleDrawer}>
             <p>Your Notifications</p>
           </div>
           {displayDrawer && (
