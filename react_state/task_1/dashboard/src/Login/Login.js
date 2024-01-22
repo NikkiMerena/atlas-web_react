@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 
 const styles = StyleSheet.create({
 
@@ -69,21 +70,80 @@ const styles = StyleSheet.create({
     },
 });
 
-function Login() {
-    return (
-    <div className={css(styles.loginBody)}>
-        <p className={css(styles.loginParagraph)}>
-            Login to access the full dashboard
-        </p>
-        <form className={css(styles.form)}>
-            <label className={css(styles.label)} htmlFor="email">Email:</label>
-            <input className={css(styles.input)} type="text" id="email" name="email"></input>
-            <label className={css(styles.label)} htmlFor="password">Password:</label>
-            <input className={css(styles.input)} type="password" id="password" name="password"></input>
-            <button className={css(styles.button)} type="submit">OK</button>
-        </form>
-    </div>
-    );
+class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            enableSubmit: false,
+            isLoggedIn: false,
+        };
+    }
+
+    handleLoginSubmit = (e) => {
+        e.preventDefault();
+        this.setState({ isLoggedIn: true });
+    }
+
+    handleEmailChange = (e) => {
+        this.setState({ email: e.target.value }, this.validateForm);
+    }
+
+    handlePasswordChange = (e) => {
+        this.setState({ password: e.target.value }, this.validateForm);
+    }
+
+    validateForm = () => {
+        const { email, password } = this.state;
+        const enableSubmit = email.length > 0 && password.length > 0;
+        this.setState({ enableSubmit: enableSubmit });
+    };
+
+    render() {
+        const { email, password, enableSubmit } = this.state;
+        return (
+            <>
+                <BodySectionWithMarginBottom title='Log in to continue'>
+                    <div className={`Login ${css(styles.Login)}`}>
+                        <p>Login to access the full dashboard</p>
+                        <form className={css(styles.form)} onSubmit={this.handleLoginSubmit}>
+                            <div className={`label ${css(styles.label)}`}>
+                                <label htmlFor='email' >Email: </label>
+                                <input
+                                    className={css(styles.input)}
+                                    type='email'
+                                    name='email'
+                                    id='email'
+                                    autoComplete='email'
+                                    value={email}
+                                    onChange={this.handleEmailChange}
+                                />
+                                </div>
+                            <div className={`label ${css(styles.label)}`}>
+                                <label htmlFor='password' >Password: </label>
+                                <input
+                                    className={css(styles.input)}
+                                    type='password'
+                                    name='password'
+                                    id='password'
+                                    autoComplete='current-password'
+                                    value={password}
+                                    onChange={this.handlePasswordChange}
+                                />
+                            </div>
+                            <input
+                                type='submit'
+                                value='OK'
+                                className={`button ${css(styles.button)}`}
+                                disabled={!enableSubmit}
+                            />
+                        </form>
+                    </div>
+                </BodySectionWithMarginBottom>
+            </>
+        );
+    }
 }
 
 export default Login;
