@@ -1,19 +1,37 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount  } from "enzyme";
 import Notifications from "./Notifications";
 import NotificationItem from "./NotificationItem";
 import { StyleSheetTestUtils } from 'aphrodite';
 
 describe('Notifications', () => {
     beforeAll(() => {
-      StyleSheetTestUtils.suppressStyleInjection();
+    StyleSheetTestUtils.suppressStyleInjection();
     });
 
     afterAll(() => {
-      StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
     });
     it("renders without crashing", () => {
         shallow(<Notifications />);
+    });
+
+    it('calls handleDisplayDrawer when menu item is clicked', () => {
+        const handleDisplayDrawer = jest.fn();
+        const wrapper = shallow(
+        <Notifications handleDisplayDrawer={handleDisplayDrawer} />
+        );
+        wrapper.find('.menuItem').simulate('click');
+        expect(handleDisplayDrawer).toHaveBeenCalled();
+    });
+
+    it('calls handleHideDrawer when close button is clicked', () => {
+        const handleHideDrawer = jest.fn();
+        const wrapper = shallow(
+        <Notifications handleHideDrawer={handleHideDrawer} displayDrawer />
+        );
+        wrapper.find('button').simulate('click');
+        expect(handleHideDrawer).toHaveBeenCalled();
     });
 
     it('displays the menu item when displayDrawer is true', () => {
