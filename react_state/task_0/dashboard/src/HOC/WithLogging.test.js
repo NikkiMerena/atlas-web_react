@@ -1,46 +1,52 @@
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { mount } from 'enzyme';
 import WithLogging from './WithLogging';
+import Login from '../Login/Login';
+import { StyleSheetTestUtils } from 'aphrodite';
 
-console.log = jest.fn();
 
-describe('WithLogging HOC', () => {
-  let container = null;
+StyleSheetTestUtils.suppressStyleInjection();
 
-  beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-  });
-
-  afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
-  });
-
-  it('should log mount and unmount messages with "Component" for pure HTML', () => {
-    const WrappedComponent = WithLogging(() => <p />);
-    render(<WrappedComponent />, container);
-
-    expect(console.log).toHaveBeenCalledWith('Component is mounted on componentDidMount()');
-
-    unmountComponentAtNode(container);
-
-    expect(console.log).toHaveBeenCalledWith('Component is going to unmount on componentWillUnmount()');
-  });
-
-  it('should log mount and unmount messages with the name of the component for Login component', () => {
-    const Login = () => <div>Login component</div>;
-    const WrappedLogin = WithLogging(Login);
-    render(<WrappedLogin />, container);
-
-    expect(console.log).toHaveBeenCalledWith('Component Login is mounted on componentDidMount()');
-
-    unmountComponentAtNode(container);
-
-    expect(console.log).toHaveBeenCalledWith('Component Login is going to unmount on componentWillUnmount()');
-  });
+beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
 });
 
 afterAll(() => {
-  jest.restoreAllMocks();
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
+
+beforeEach(() => {
+    jest.clearAllMocks();
+});
+
+describe('WithLogging HOC', () => {
+    it('logs correctly with pure HTML', () => {
+        const ConsoleSpy = jest.spyOn(console, 'log');
+
+        // Create a component that renders pure HTML
+        const WrappedComponent = WithLogging(() => <p />);
+        const wrapper = mount(<WrappedComponent />);
+
+        expect(ConsoleSpy).toHaveBeenCalledWith('Component Component is mounted');
+
+        // Clean up and check unmount message
+        wrapper.unmount();
+        expect(ConsoleSpy).toHaveBeenCalledWith('Component Component is going to unmount');
+
+        ConsoleSpy.mockRestore();
+    });
+
+    it('logs correctly with Login component', () => {
+        const ConsoleSpy = jest.spyOn(console, 'log');
+
+        const WrappedLogin = WithLogging(Login);
+        const wrapper = mount(<WrappedLogin />);
+
+        expect(ConsoleSpy).toHaveBeenCalledWith('Component Login is mounted');
+
+        wrapper.unmount();
+        expect(ConsoleSpy).toHaveBeenCalledWith('Component Login is going to unmount');
+
+        ConsoleSpy.mockRestore();
+    });
 });
