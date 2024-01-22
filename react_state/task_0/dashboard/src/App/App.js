@@ -59,7 +59,20 @@ class App extends Component {
         { id: 2, type: 'urgent', value: 'New resume available' },
         { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
       ],
+      displayDrawer: false,
     };
+    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
+    this.handleHideDrawer = this.handleHideDrawer.bind(this);
+  }
+
+  // Method to open drawer
+  handleDisplayDrawer() {
+    this.setState({ displayDrawer: true });
+  }
+
+  // Method to close drawer
+  handleHideDrawer() {
+    this.setState({ displayDrawer: false });
   }
 
   componentDidMount() {
@@ -87,7 +100,12 @@ class App extends Component {
         <div className={css(styles.headerWrapper)}>
           <Header />
           <div className={css(styles.headerNotifications)}>
-            <Notifications listNotifications={listNotifications} />
+            <Notifications
+            listNotifications={listNotifications}
+            displayDrawer={this.state.displayDrawer}
+            handleDisplayDrawer={this.handleDisplayDrawer}
+            handleHideDrawer={this.handleHideDrawer}
+          />
           </div>
         </div>
         <div className={css(styles.body)}>
