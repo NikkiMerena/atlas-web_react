@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import App from './App';
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
@@ -20,6 +20,24 @@ describe('App', () => {
 
   it('renders without crashing', () => {
     shallow(<App />);
+  });
+
+  it('calls logOut and alert when ctrl+h is pressed', () => {
+    const logOutMock = jest.fn();
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation();
+
+    // Use mount here
+    const wrapper = mount(<App logOut={logOutMock} />);
+
+    // Simulating ctrl+h keydown event
+    const event = new KeyboardEvent('keydown', { key: 'h', ctrlKey: true });
+    window.dispatchEvent(event);
+
+    expect(alertMock).toHaveBeenCalledWith('Logging you out');
+    expect(logOutMock).toHaveBeenCalled();
+
+    alertMock.mockRestore();
+    wrapper.unmount(); // Important to clean up when using mount
   });
 
   it('renders the Notifications component', () => {
@@ -55,23 +73,5 @@ describe('App', () => {
   it('renders the Footer component', () => {
     const wrapper = shallow(<App />);
     expect(wrapper.containsMatchingElement(<Footer />)).toEqual(true);
-  });
-});
-
-describe('<App />', () => {
-  it('calls logOut and alert when ctrl+h is pressed', () => {
-    const logOutMock = jest.fn();
-    const alertMock = jest.spyOn(window, 'alert').mockImplementation();
-
-    const wrapper = shallow(<App logOut={logOutMock} />);
-
-    // Simulating ctrl+h keydown event
-    const event = new KeyboardEvent('keydown', { key: 'h', ctrlKey: true });
-    window.dispatchEvent(event);
-
-    expect(alertMock).toHaveBeenCalledWith('Logging you out');
-    expect(logOutMock).toHaveBeenCalled();
-
-    alertMock.mockRestore();
   });
 });
