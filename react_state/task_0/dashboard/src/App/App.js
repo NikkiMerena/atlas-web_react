@@ -1,130 +1,101 @@
-import React, { Component } from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, css } from 'aphrodite';
-
-// import components
-import Notifications from "../Notifications/Notifications";
 import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import Login from '../Login/Login';
-import CourseList from "../CourseList/CourseList";
-import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
-import BodySection from "../BodySection/BodySection";
-
+import Footer from '../Footer/Footer';
+import Notifications from '../Notifications/Notifications';
+import CourseList from '../CourseList/CourseList';
+import BodySection from '../BodySection/BodySection';
+import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
 
-  body: {
-    textAlign: 'center',
-  },
-
-  headerWrapper: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+  header: {
+    fontFamily: "'Galano Grotesque Alt', sans-serif",
     borderBottom: '5px solid #00003C',
   },
 
-  headerNotifications: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
+  body: {
+    fontFamily: "'Galano Grotesque Alt', sans-serif",
+    padding: '1rem',
+    minHeight: 'calc(100vh - 190px)',
   },
 
   footer: {
-    fontFamily: "'Galano Grotesque Alt', sans-serif",
-    fontStyle: 'italic',
-    fontSize: '1.1rem',
     borderTop: '5px solid #00003C',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: '0',
-  }
-})
+    textAlign: 'center',
+    fontStyle: 'italic',
+  },
+});
 
-class App extends Component {
+const listCourses = [
+  { id: 1, name: 'ES6', credit: 60 },
+  { id: 2, name: 'Webpack', credit: 20 },
+  { id: 3, name: 'React', credit: 40 },
+];
+
+const listNotifications = [
+  { id: 1, type: 'default', value: 'New course available' },
+  { id: 2, type: 'urgent', value: 'New resume available' },
+  { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
+];
+
+class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      listCourses: [
-        { id: 1, name: 'ES6', credit: 60 },
-        { id: 2, name: 'Webpack', credit: 20 },
-        { id: 3, name: 'React', credit: 40 },
-      ],
-      listNotifications: [
-        { id: 1, type: 'default', value: 'New course available' },
-        { id: 2, type: 'urgent', value: 'New resume available' },
-        { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
-      ],
-      displayDrawer: false,
-    };
     this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
     this.handleHideDrawer = this.handleHideDrawer.bind(this);
+    // define default state
+    this.state = {
+      displayDrawer: false,
+    };
   }
 
-  // Method to open drawer
-  handleDisplayDrawer() {
+  // Function to handle displayDrawer state
+  handleDisplayDrawer = () => {
     this.setState({ displayDrawer: true });
   }
-
-  // Method to close drawer
-  handleHideDrawer() {
+  handleHideDrawer = () => {
     this.setState({ displayDrawer: false });
   }
 
   componentDidMount() {
-    this.handleKeyDown = (event) => {
-      if(event.ctrlKey && event.key === 'h') {
-        event.preventDefault();
-        alert('Logging you out');
-        this.props.logOut();
-      }
-    };
-
-    window.addEventListener('keydown', this.handleKeyDown);
+    document.addEventListener('keydown', this.handleKeydown);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
+    document.removeEventListener('keydown', this.handleKeydown);
   }
 
-  render () {
+  handleKeydown = (event) => {
+    if (event.ctrlKey && event.key === 'h') {
+      event.preventDefault();
+      alert('Logging you out');
+      this.props.logOut();
+    }
+  }
+
+  render() {
     const { isLoggedIn } = this.props;
-    const { listCourses, listNotifications } = this.state;
+    const { displayDrawer } = this.state;
 
     return (
       <>
-        <div className={css(styles.headerWrapper)}>
+        <div className={`App-header ${css(styles.header)}`} data-testid="app-header">
+          <Notifications
+          listNotifications={listNotifications}
+          displayDrawer={this.state.displayDrawer}
+          handleDisplayDrawer={this.handleDisplayDrawer}
+          handleHideDrawer={this.handleHideDrawer} />
           <Header />
-          <div className={css(styles.headerNotifications)}>
-            <Notifications
-            listNotifications={listNotifications}
-            displayDrawer={this.state.displayDrawer}
-            handleDisplayDrawer={this.handleDisplayDrawer}
-            handleHideDrawer={this.handleHideDrawer}
-          />
           </div>
-        </div>
-        <div className={css(styles.body)}>
-          {isLoggedIn ? (
-            <BodySectionWithMarginBottom title='Course List'>
-              <CourseList listCourses={listCourses} />
-            </BodySectionWithMarginBottom>
-          ) : (
-            <BodySectionWithMarginBottom title='Log in to continue'>
-              <Login />
-            </BodySectionWithMarginBottom>
-          )}
+        <div className={`App-body ${css(styles.body)}`}>
+          {isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
           <BodySection title='News from the School'>
-            <p>Nikki got her DREAM JOB!!</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           </BodySection>
         </div>
-        <div>
-          <Footer footerClassName={css(styles.footer)} />
-        </div>
+        <Footer className={`App-footer ${css(styles.footer)}`} />
       </>
     );
   }
@@ -137,7 +108,7 @@ App.propTypes = {
 
 App.defaultProps = {
   isLoggedIn: false,
-  logOut: () => {},
+  logOut: () => { },
 };
 
 export default App;
