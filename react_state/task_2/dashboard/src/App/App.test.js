@@ -9,22 +9,25 @@ import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-import '@testing-library/jest-dom';
 import { StyleSheetTestUtils } from 'aphrodite';
+
+// Mock aphrodite to avoid querySelector error
+jest.mock('aphrodite', () => ({
+    StyleSheet: {
+        create: () => ({}),
+    },
+    css: () => '',
+    }));
+
 
 StyleSheetTestUtils.suppressStyleInjection();
 
 beforeAll(() => {
     StyleSheetTestUtils.suppressStyleInjection();
-    document.querySelector = jest.fn().mockImplementation(() => ({
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-    }));
 });
 
 afterAll(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-    document.querySelector.mockRestore();
 });
 
 beforeEach(() => {
@@ -37,6 +40,7 @@ test('renders with styles', () => {
     expect(headerElement).toHaveClass('App-header');
 });
 
+
 describe('App', () => {
     let wrapper;
 
@@ -45,8 +49,6 @@ describe('App', () => {
     });
 
     it('renders without crashing', () => {
-        // This test is now redundant since `beforeEach` is doing the same thing,
-        // but I'm leaving it here for demonstration purposes
         expect(wrapper.exists()).toBe(true);
     });
 
@@ -111,7 +113,6 @@ describe('App', () => {
 
                 const logOutSpy = jest.spyOn(wrapper.instance(), 'logOut');
 
-                // You need to re-render the component for the spy to take effect
                 wrapper.update();
 
                 await act(async () => {
