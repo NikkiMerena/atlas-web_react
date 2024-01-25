@@ -77,7 +77,6 @@ class Login extends React.Component {
             email: '',
             password: '',
             enableSubmit: false,
-            isLoggedIn: false,
         };
     }
 
