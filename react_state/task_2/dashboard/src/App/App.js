@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
@@ -7,6 +7,7 @@ import Notifications from '../Notifications/Notifications';
 import CourseList from '../CourseList/CourseList';
 import BodySection from '../BodySection/BodySection';
 import { StyleSheet, css } from 'aphrodite';
+import { AppContext, defaultUser } from './AppContext';
 
 const styles = StyleSheet.create({
 
@@ -43,13 +44,27 @@ const listNotifications = [
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
-    this.handleHideDrawer = this.handleHideDrawer.bind(this);
-    // define default state
     this.state = {
       displayDrawer: false,
+      user: defaultUser,
+      logOut: this.logOut,
+      logIn: this.logIn,
     };
   }
+
+  logIn = (email, password) => {
+    this.setState({
+      user: {
+        email,
+        password,
+        isLoggedIn: true,
+      },
+    });
+  };
+
+  logOut = () => {
+    this.setState({ user: defaultUser });
+  };
 
   // Function to handle displayDrawer state
   handleDisplayDrawer = () => {
@@ -59,10 +74,15 @@ class App extends React.Component {
     this.setState({ displayDrawer: false });
   }
 
+  // componentDidMount() {
+  // document.addEventListener('keydown', this.handleKeydown);
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeydown);
   }
 
+  // componentWillUnmount() {
+  //  document.removeEventListener('keydown', this.handleKeydown);
+  // }
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeydown);
   }
@@ -71,44 +91,40 @@ class App extends React.Component {
     if (event.ctrlKey && event.key === 'h') {
       event.preventDefault();
       alert('Logging you out');
-      this.props.logOut();
+      this.state.logOut();
     }
   }
 
   render() {
-    const { isLoggedIn } = this.props;
-    const { displayDrawer } = this.state;
-
+    const { displayDrawer, user, } = this.state;
     return (
-      <>
+      <AppContext.Provider value={this.state}>
         <div className={`App-header ${css(styles.header)}`} data-testid="app-header">
           <Notifications
           listNotifications={listNotifications}
-          displayDrawer={this.state.displayDrawer}
+          displayDrawer={displayDrawer}
           handleDisplayDrawer={this.handleDisplayDrawer}
           handleHideDrawer={this.handleHideDrawer} />
           <Header />
           </div>
         <div className={`App-body ${css(styles.body)}`}>
-          {isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
+          {user.isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
           <BodySection title='News from the School'>
             <p>Nikki got her Dream Job!</p>
           </BodySection>
         </div>
         <Footer className={`App-footer ${css(styles.footer)}`} />
-      </>
+        </AppContext.Provider>
     );
   }
 }
 
-App.propTypes = {
-  isLoggedIn: PropTypes.bool,
-  logOut: PropTypes.func,
-};
+// App.propTypes = {
 
-App.defaultProps = {
-  isLoggedIn: false,
-  logOut: () => { },
-};
+// };
+
+// App.defaultProps = {
+
+// };
 
 export default App;

@@ -1,17 +1,18 @@
 import React from 'react';
 
-// Define the default user object and logout function
-const defaultUser = {
+export const defaultUser = {
   email: '',
   password: '',
   isLoggedIn: false,
 };
 
-const logOut = () => {
-  console.log("User logged out"); // Placeholder function
+// Placeholder function for logOut
+export const logOut = () => {
+  console.log("User logged out");
 };
 
-// Create a Context with a default user object and logOut function
-const AppContext = React.createContext({ user: defaultUser, logOut });
-
-export default AppContext;
+// Create and export the context
+export const AppContext = React.createContext({
+  user: defaultUser,
+  logOut: logOut,
+});
