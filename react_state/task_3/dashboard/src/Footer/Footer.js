@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { getFullYear, getFooterCopy } from '../utils/utils';
-import { AppContext } from '../App/AppContext'; // Import AppContext
+import { AppContext } from '../App/AppContext';
 
 function Footer() {
   const { user } = useContext(AppContext);
