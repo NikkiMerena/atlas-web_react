@@ -151,7 +151,8 @@ class Notifications extends PureComponent {
                         <div id='menuItem' className={css(styles.menuItem)}>
                             {listNotifications.length > 0 && <p className={css(styles.paragraph)}>Here is the list of notifications</p>}
                             <ul className={css(styles.list)}>
-                                {listNotifications.map((item) => (
+                                {listNotifications.length === 0 ? (<NotificationItem value="No new notification for now" />) : (
+                                listNotifications.map((item) => (
                                         <NotificationItem
                                             key={item.id}
                                             type={item.type}
@@ -160,7 +161,7 @@ class Notifications extends PureComponent {
                                             id={item.id}
                                             markAsRead={markNotificationAsRead}
                                         />
-                                    ))}
+                                )))}
                                 </ul>
                             </div>
                         </>
