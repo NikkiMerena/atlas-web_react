@@ -163,4 +163,25 @@ describe('App', () => {
             expect(userState.email).toEqual('');
         });
     });
+
+it('updates the notification state correctly', () => {
+    const mockNotifications = [
+      { id: 1, isRead: false },
+      { id: 2, isRead: false },
+    ];
+
+    // Render the App component
+    const wrapper = shallow(<App />);
+
+    // Set Initial Notifications State
+    wrapper.setState({ notifications: mockNotifications });
+
+    // Invoke markNotificationAsRead
+    wrapper.instance().markNotificationAsRead(1);
+
+    // Assert State Change
+    const updatedNotifications = wrapper.state('notifications');
+    expect(updatedNotifications.find(n => n.id === 1).isRead).toBe(true);
+    expect(updatedNotifications.find(n => n.id === 2).isRead).toBe(false); // Unchanged
+    });
 });
