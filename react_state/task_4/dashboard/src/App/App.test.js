@@ -11,16 +11,6 @@ import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import { StyleSheetTestUtils } from 'aphrodite';
 
-// Mock aphrodite to avoid querySelector error
-jest.mock('aphrodite', () => ({
-    StyleSheet: {
-        create: () => ({}),
-    },
-    css: () => '',
-    }));
-
-
-StyleSheetTestUtils.suppressStyleInjection();
 
 beforeAll(() => {
     StyleSheetTestUtils.suppressStyleInjection();
