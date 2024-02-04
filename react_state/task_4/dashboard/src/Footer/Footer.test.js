@@ -1,10 +1,29 @@
 // Footer.test.js
+import { global } from 'jsdom-global/register';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Footer from './Footer';
 import AppContext from '../App/AppContext';
+import jsdom from 'jsdom';
+
+const { JSDOM } = jsdom;
+const { window } = new JSDOM('<!doctype html><html><body></body></html>');
+global.window = window;
+global.document = window.document;
 
 describe('Footer', () => {
+
+    const mockContextLoggedOut = {
+        user: {
+            isLoggedIn: false,
+        }
+    };
+    const mockContextLoggedIn ={
+        user: {
+            isLoggedIn: true,
+        }
+    };
+
     it('renders without crashing', () => {
         shallow(<Footer />);
     });
@@ -16,7 +35,7 @@ describe('Footer', () => {
 
     it('does not display Contact us link when logged out', () => {
         const wrapper = mount(
-            <AppContext.Provider value={{ user: { isLoggedIn: false } }}>
+            <AppContext.Provider value={mockContextLoggedOut}>
                 <Footer />
             </AppContext.Provider>
         );
@@ -25,7 +44,7 @@ describe('Footer', () => {
 
     it('displays Contact us link when logged in', () => {
         const wrapper = mount(
-            <AppContext.Provider value={{ user: { isLoggedIn: true } }}>
+            <AppContext.Provider value={mockContextLoggedIn}>
                 <Footer />
             </AppContext.Provider>
         );
