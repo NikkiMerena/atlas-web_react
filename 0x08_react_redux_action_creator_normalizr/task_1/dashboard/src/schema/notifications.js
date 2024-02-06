@@ -17,7 +17,7 @@ const notification = new schema.Entity('notifications', {
 
 const normalizedData = normalize(notificationsData, [notification]);
 
-export const getAllNotificationsByUser = (userId) => {
+const getAllNotificationsByUser = (userId) => {
   return notificationsData.default.filter(
     (notification) => notification.author.id === userId
   ).map((notification) => ({
@@ -28,4 +28,4 @@ export const getAllNotificationsByUser = (userId) => {
   }));
 };
 
-export { normalizedData };
+export { user, message, notification, normalizedData, getAllNotificationsByUser };
