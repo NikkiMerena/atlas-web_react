@@ -39,6 +39,7 @@
     "@testing-library/react": "^14.1.2",
     "aphrodite": "^2.4.0",
     "fast-text-encoding": "^1.0.6",
+    "immutable": "^5.0.0-beta.5",
     "jsdom": "^23.2.0",
     "normalizer": "^1.2.7",
     "prop-types": "^15.8.1",
