@@ -1,6 +1,4 @@
 import { LOGIN, LOGOUT, DISPLAY_NOTIFICATION_DRAWER, HIDE_NOTIFICATION_DRAWER, LOGIN_SUCCESS, LOGIN_FAILURE } from "./uiActionTypes";
-import { useDispatch } from 'react-redux';
-import fetch from 'node-fetch';
 
 export const login = (email, password) => ({
   type: LOGIN,
@@ -44,8 +42,3 @@ export const loginRequest = (email, password) => {
   };
 };
 
-// Wrap the action creators with the dispatch function, to bound them together
-export const boundLogin = (email, password) => useDispatch(login(email, password));
-export const boundLogout = () => useDispatch(logout());
-export const boundDisplayNotificationDrawer = () => useDispatch(displayNotificationDrawer());
-export const boundHideNotificationDrawer = () => useDispatch(hideNotificationDrawer());
