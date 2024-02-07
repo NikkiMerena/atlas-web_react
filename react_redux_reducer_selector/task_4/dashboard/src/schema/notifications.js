@@ -1,4 +1,4 @@
-import * as notifData from '../../notifications.json';
+import * as notifData from '../../dist/notifications.json';
 import { schema, normalize } from 'normalizr';
 
 // create entities
@@ -14,6 +14,10 @@ const notification = new schema.Entity("notifications", {
 // Normalize the data outside of function
 const normalizedData = normalize(notifData.default, [notification]);
 
+export function notificationsNormalizer(data) {
+  return normalize(data, [notification]);
+}
+
 // Get notifications by user id
 const getAllNotificationsByUser = (userId) => {
   const userNotifications = [];
@@ -22,6 +26,7 @@ const getAllNotificationsByUser = (userId) => {
   for(const id of normalizedData.result) {
     const notif = normalizedData.entities.notifications[id];
 
+    // If the notification's author matches the given userId, add the context to the list
     if(notif.author === userId) {
       const message = normalizedData.entities.messages[notif.context]
       userNotifications.push({
