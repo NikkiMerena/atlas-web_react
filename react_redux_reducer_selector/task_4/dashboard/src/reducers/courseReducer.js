@@ -1,6 +1,7 @@
-import { fromJS } from 'immutable';
+// eslint-disable-next-line no-unused-vars
+import { fromJS, Map } from 'immutable';
 import { FETCH_COURSE_SUCCESS, SELECT_COURSE, UNSELECT_COURSE } from '../actions/courseActionTypes';
-import { coursesNormalizer } from '../schema/courses';
+import { courseNormalizer } from '../schema/courses';
 
 // Initial state using Immutable.js Map
 const initialState = fromJS({
@@ -15,15 +16,15 @@ const courseReducer = (state = initialState, action) => {
     case FETCH_COURSE_SUCCESS:
       // Normalize the data and merge it with the state
       // eslint-disable-next-line no-case-declarations
-      const normalizedData = coursesNormalizer(action.data);
+      const normalizedData = courseNormalizer(action.data);
       return state.mergeDeep(normalizedData);
 
     case SELECT_COURSE:
-      // Use the setIn function from Immutable to update the value of the item
+      // Update the isSelected property of the course
       return state.setIn(['entities', 'courses', action.index, 'isSelected'], true);
 
     case UNSELECT_COURSE:
-      // Use the setIn function from Immutable to update the value of the item
+      // Update the isSelected property of the course
       return state.setIn(['entities', 'courses', action.index, 'isSelected'], false);
 
     default:
