@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
@@ -127,4 +128,11 @@ class App extends React.Component {
 
 // };
 
-export default App;
+// Define mapStateToProps function
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.uiReducer.isLoggedIn,
+  };
+};
+
+export default connect(mapStateToProps)(App);
